@@ -313,29 +313,6 @@ then
 	LD_LIBRARY_PATH=$ROCM_VERSION/lib:$LD_LIBRARY_PATH $ROCM_VERSION/bin/amd-smi xgmi
 fi
 
-# ROCm SMI 
-echo "===== Section: ROCm SMI                ==============="
-if [ -f $ROCM_VERSION/bin/rocm-smi ]
-then
-    LD_LIBRARY_PATH=$ROCM_VERSION/lib:$LD_LIBRARY_PATH $ROCM_VERSION/bin/rocm-smi
-else
-    echo " $ROCM_VERSION/bin/rocm-smi NOT FOUND !!! "
-fi
-
-# ROCm SMI - FW version
-if [ -f $ROCM_VERSION/bin/rocm-smi ]
-then
-    echo "===== Section: ROCm SMI showhw         ==============="
-    LD_LIBRARY_PATH=$ROCM_VERSION/lib:$LD_LIBRARY_PATH $ROCM_VERSION/bin/rocm-smi --showhw
-fi
-
-# ROCm PCIe Clock
-if [ -f $ROCM_VERSION/bin/rocm-smi ]
-then
-    echo "===== Section: ROCm SMI pcieclk clock  ==============="
-    LD_LIBRARY_PATH=$ROCM_VERSION/lib:$LD_LIBRARY_PATH $ROCM_VERSION/bin/rocm-smi -c | /bin/grep -i -E 'pcie'
-fi
-
     echo "===== Section: GPU PCIe Link Config    ==============="
 for i in $(seq 0 16)
 do
@@ -346,80 +323,41 @@ done
 
     echo "===== Section: KFD PIDs sysfs kfd proc ==============="
 ls /sys/class/kfd/kfd/proc/
-# ROCm SMI - showpids
+
 if [ -f $ROCM_VERSION/bin/rocm-smi ]
 then
+    echo "===== Section: ROCm SMI                ==============="
+    LD_LIBRARY_PATH=$ROCM_VERSION/lib:$LD_LIBRARY_PATH $ROCM_VERSION/bin/rocm-smi
+    echo "===== Section: ROCm SMI showhw         ==============="
+    LD_LIBRARY_PATH=$ROCM_VERSION/lib:$LD_LIBRARY_PATH $ROCM_VERSION/bin/rocm-smi --showhw
+    echo "===== Section: ROCm SMI pcieclk clock  ==============="
+    LD_LIBRARY_PATH=$ROCM_VERSION/lib:$LD_LIBRARY_PATH $ROCM_VERSION/bin/rocm-smi -c | /bin/grep -i -E 'pcie'
+    echo "===== Section: ROCm SMI showpids       ==============="
     LD_LIBRARY_PATH=$ROCM_VERSION/lib:$LD_LIBRARY_PATH $ROCM_VERSION/bin/rocm-smi --showpids
-fi
-
-    echo "===== Section: showtopo toplogy        ==============="
-# ROCm SMI - showtopo
-if [ -f $ROCM_VERSION/bin/rocm-smi ]
-then
+    echo "===== Section: ROCm SMI showtopo       ==============="
     LD_LIBRARY_PATH=$ROCM_VERSION/lib:$LD_LIBRARY_PATH $ROCM_VERSION/bin/rocm-smi --showtopo
-fi
-
-    echo "===== Section: showserial              ==============="
-# ROCm SMI - showserial
-if [ -f $ROCM_VERSION/bin/rocm-smi ]
-then
+    echo "===== Section: ROCm SMI showserial     ==============="
     LD_LIBRARY_PATH=$ROCM_VERSION/lib:$LD_LIBRARY_PATH $ROCM_VERSION/bin/rocm-smi --showserial
-fi
-
-    echo "===== Section: showperflevel           ==============="
-# ROCm SMI - showperflevel
-if [ -f $ROCM_VERSION/bin/rocm-smi ]
-then
+    echo "===== Section: ROCm SMI showperflevel  ==============="
     LD_LIBRARY_PATH=$ROCM_VERSION/lib:$LD_LIBRARY_PATH $ROCM_VERSION/bin/rocm-smi --showperflevel
-fi
-
-# ROCm SMI - RAS info
-if [ -f $ROCM_VERSION/bin/rocm-smi ]
-then
     echo "===== Section: ROCm SMI showrasinfo all==============="
     LD_LIBRARY_PATH=$ROCM_VERSION/lib:$LD_LIBRARY_PATH $ROCM_VERSION/bin/rocm-smi --showrasinfo all
-fi
-
-# ROCm SMI - xgmierr
-if [ -f $ROCM_VERSION/bin/rocm-smi ]
-then
     echo "===== Section: ROCm SMI showxgmierr    ==============="
     LD_LIBRARY_PATH=$ROCM_VERSION/lib:$LD_LIBRARY_PATH $ROCM_VERSION/bin/rocm-smi --showxgmierr
-fi
-
-# ROCm SMI - FW version clocks etc.
-if [ -f $ROCM_VERSION/bin/rocm-smi ]
-then
     echo "===== Section: ROCm SMI clocks         ==============="
     LD_LIBRARY_PATH=$ROCM_VERSION/lib:$LD_LIBRARY_PATH $ROCM_VERSION/bin/rocm-smi -cga
-fi
-
-# ROCm SMI - shownps
-if [ -f $ROCM_VERSION/bin/rocm-smi ]
-then
     echo "===== Section: ROCm Show memorypartition=============="
     LD_LIBRARY_PATH=$ROCM_VERSION/lib:$LD_LIBRARY_PATH $ROCM_VERSION/bin/rocm-smi --showmemorypartition
-fi
-
-# ROCm SMI - showcomputepartition
-if [ -f $ROCM_VERSION/bin/rocm-smi ]
-then
     echo "===== Section: ROCm Show computepartition============="
     LD_LIBRARY_PATH=$ROCM_VERSION/lib:$LD_LIBRARY_PATH $ROCM_VERSION/bin/rocm-smi --showcomputepartition
-fi
-
-# ROCm SMI - shownodesbw
-if [ -f $ROCM_VERSION/bin/rocm-smi ]
-then
     echo "===== Section: ROCm Show Node XGMI BW  ==============="
     LD_LIBRARY_PATH=$ROCM_VERSION/lib:$LD_LIBRARY_PATH $ROCM_VERSION/bin/rocm-smi --shownodesbw
-fi
-
-# ROCm SMI - showtopo
-if [ -f $ROCM_VERSION/bin/rocm-smi ]
-then
     echo "===== Section: ROCm showtopology       ==============="
     LD_LIBRARY_PATH=$ROCM_VERSION/lib:$LD_LIBRARY_PATH $ROCM_VERSION/bin/rocm-smi --showtopo
+    echo "===== Section: ROCm showallinfo        ==============="
+    LD_LIBRARY_PATH=$ROCM_VERSION/lib:$LD_LIBRARY_PATH $ROCM_VERSION/bin/rocm-smi --showallinfo
+else
+    echo " $ROCM_VERSION/bin/rocm-smi NOT FOUND !!! "
 fi
 
 # ROCm Agent Information
